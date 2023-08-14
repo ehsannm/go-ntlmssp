@@ -140,14 +140,19 @@ func (l Negotiator) RoundTrip(req *http.Request) (res *http.Response, err error)
         _ = res.Body.Close()
 
         // send authenticate
-        authenticateMessage, err := ProcessChallenge(challengeMessage, u, p, domainNeeded)
+        authenticateMessage, err := processChallenge(challengeMessage, u, p, domainNeeded)
+        if err != nil {
+            return nil, err
+        }
+
+        amBinary, err := authenticateMessage.MarshalBinary()
         if err != nil {
             return nil, err
         }
         if resauth.IsNTLM() {
-            req.Header.Set("Authorization", "NTLM "+base64.StdEncoding.EncodeToString(authenticateMessage))
+            req.Header.Set("Authorization", "NTLM "+base64.StdEncoding.EncodeToString(amBinary))
         } else {
-            req.Header.Set("Authorization", "Negotiate "+base64.StdEncoding.EncodeToString(authenticateMessage))
+            req.Header.Set("Authorization", "Negotiate "+base64.StdEncoding.EncodeToString(amBinary))
         }
 
         req.Body = io.NopCloser(bytes.NewReader(body.Bytes()))

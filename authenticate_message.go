@@ -5,6 +5,7 @@ import (
     "crypto/rand"
     "encoding/binary"
     "encoding/hex"
+    "encoding/json"
     "errors"
     "strings"
     "time"
@@ -80,9 +81,29 @@ func (m authenticateMessage) MarshalBinary() ([]byte, error) {
     return b.Bytes(), nil
 }
 
-// ProcessChallenge crafts an AUTHENTICATE message in response to the CHALLENGE message
+func (m authenticateMessage) String() string {
+    x, _ := json.MarshalIndent(
+        map[string]any{
+            "LmChallengeResponse":       hex.EncodeToString(m.LmChallengeResponse),
+            "NtChallengeResponse":       hex.EncodeToString(m.NtChallengeResponse),
+            "TargetName":                m.TargetName,
+            "UserName":                  m.UserName,
+            "EncryptedRandomSessionKey": hex.EncodeToString(m.EncryptedRandomSessionKey),
+            "NegotiateFlags":            m.NegotiateFlags,
+            "MIC":                       hex.EncodeToString(m.MIC),
+        },
+        "",
+        "  ",
+    )
+
+    return string(x)
+}
+
+// processChallenge crafts an AUTHENTICATE message in response to the CHALLENGE message
 // that was received from the server
-func ProcessChallenge(challengeMessageData []byte, user, password string, domainNeeded bool) ([]byte, error) {
+func processChallenge(
+        challengeMessageData []byte, user, password string, domainNeeded bool,
+) (*authenticateMessage, error) {
     if user == "" && password == "" {
         return nil, errors.New("anonymous authentication not supported")
     }
@@ -118,18 +139,24 @@ func ProcessChallenge(challengeMessageData []byte, user, password string, domain
     }
 
     clientChallenge := make([]byte, 8)
-    rand.Reader.Read(clientChallenge)
+    _, _ = rand.Reader.Read(clientChallenge)
 
     ntlmV2Hash := getNtlmV2Hash(password, user, cm.TargetName)
 
-    am.NtChallengeResponse = computeNtlmV2Response(ntlmV2Hash,
-        cm.ServerChallenge[:], clientChallenge, timestamp, cm.TargetInfoRaw)
+    am.NtChallengeResponse = computeNtlmV2Response(
+        ntlmV2Hash,
+        cm.ServerChallenge[:],
+        clientChallenge,
+        timestamp,
+        cm.TargetInfoRaw,
+    )
 
     if cm.TargetInfoRaw == nil {
         am.LmChallengeResponse = computeLmV2Response(ntlmV2Hash,
             cm.ServerChallenge[:], clientChallenge)
     }
-    return am.MarshalBinary()
+
+    return &am, nil
 }
 
 func ProcessChallengeWithHash(challengeMessageData []byte, user, hash string) ([]byte, error) {
