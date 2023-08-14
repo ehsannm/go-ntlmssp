@@ -27,7 +27,8 @@ var defaultFlags = FlagNTLMSSPNEGOTIATEUNICODE |
         FlagNTLMSSPNEGOTIATEEXTENDEDSESSIONSECURITY |
         FlagNTLMSSPNEGOTIATEVERSION |
         FlagNTLMSSPNEGOTIATE56 |
-        FlagNTLMSSPNEGOTIATE128
+        FlagNTLMSSPNEGOTIATE128 |
+        FlagNTLMSSPNEGOTIATEOEMWORKSTATIONSUPPLIED
 
 // NewNegotiateMessage creates a new NEGOTIATE message with the
 // flags that this package supports.
@@ -37,10 +38,6 @@ func NewNegotiateMessage(domainName, workstationName string) ([]byte, error) {
 
     if domainName != "" {
         flags |= FlagNTLMSSPNEGOTIATEOEMDOMAINSUPPLIED
-    }
-
-    if workstationName != "" {
-        flags |= FlagNTLMSSPNEGOTIATEOEMWORKSTATIONSUPPLIED
     }
 
     msg := negotiateMessageFields{
