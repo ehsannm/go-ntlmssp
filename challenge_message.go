@@ -37,7 +37,7 @@ func (m *challengeMessage) UnmarshalBinary(data []byte) error {
     }
 
     if m.challengeMessageFields.TargetName.Len > 0 {
-        m.TargetName, err = m.challengeMessageFields.TargetName.ReadStringFrom(data, m.NegotiateFlags.Has(negotiateFlagNTLMSSPNEGOTIATEUNICODE))
+        m.TargetName, err = m.challengeMessageFields.TargetName.ReadStringFrom(data, m.NegotiateFlags.Has(FlagNTLMSSPNEGOTIATEUNICODE))
         if err != nil {
             return err
         }

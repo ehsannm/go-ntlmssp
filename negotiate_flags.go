@@ -3,28 +3,28 @@ package ntlmssp
 type negotiateFlags uint32
 
 const (
-    negotiateFlagNTLMSSPNEGOTIATEUNICODE                 negotiateFlags = 1 << 0
-    negotiateFlagNTLMNEGOTIATEOEM                                       = 1 << 1
-    negotiateFlagNTLMSSPREQUESTTARGET                                   = 1 << 2
-    negotiateFlagNTLMSSPNEGOTIATESIGN                                   = 1 << 4
-    negotiateFlagNTLMSSPNEGOTIATESEAL                                   = 1 << 5
-    negotiateFlagNTLMSSPNEGOTIATEDATAGRAM                               = 1 << 6
-    negotiateFlagNTLMSSPNEGOTIATELMKEY                                  = 1 << 7
-    negotiateFlagNTLMSSPNEGOTIATENTLM                                   = 1 << 9
-    negotiateFlagANONYMOUS                                              = 1 << 11
-    negotiateFlagNTLMSSPNEGOTIATEOEMDOMAINSUPPLIED                      = 1 << 12
-    negotiateFlagNTLMSSPNEGOTIATEOEMWORKSTATIONSUPPLIED                 = 1 << 13
-    negotiateFlagNTLMSSPNEGOTIATEALWAYSSIGN                             = 1 << 15
-    negotiateFlagNTLMSSPTARGETTYPEDOMAIN                                = 1 << 16
-    negotiateFlagNTLMSSPTARGETTYPESERVER                                = 1 << 17
-    negotiateFlagNTLMSSPNEGOTIATEEXTENDEDSESSIONSECURITY                = 1 << 19
-    negotiateFlagNTLMSSPNEGOTIATEIDENTIFY                               = 1 << 20
-    negotiateFlagNTLMSSPREQUESTNONNTSESSIONKEY                          = 1 << 22
-    negotiateFlagNTLMSSPNEGOTIATETARGETINFO                             = 1 << 23
-    negotiateFlagNTLMSSPNEGOTIATEVERSION                                = 1 << 25
-    negotiateFlagNTLMSSPNEGOTIATE128                                    = 1 << 29
-    negotiateFlagNTLMSSPNEGOTIATEKEYEXCH                                = 1 << 30
-    negotiateFlagNTLMSSPNEGOTIATE56                                     = 1 << 31
+    FlagNTLMSSPNEGOTIATEUNICODE                 negotiateFlags = 1 << 0
+    FlagNTLMNEGOTIATEOEM                                       = 1 << 1
+    FlagNTLMSSPREQUESTTARGET                                   = 1 << 2
+    FlagNTLMSSPNEGOTIATESIGN                                   = 1 << 4
+    FlagNTLMSSPNEGOTIATESEAL                                   = 1 << 5
+    FlagNTLMSSPNEGOTIATEDATAGRAM                               = 1 << 6
+    FlagNTLMSSPNEGOTIATELMKEY                                  = 1 << 7
+    FlagNTLMSSPNEGOTIATENTLM                                   = 1 << 9
+    FlagANONYMOUS                                              = 1 << 11
+    FlagNTLMSSPNEGOTIATEOEMDOMAINSUPPLIED                      = 1 << 12
+    FlagNTLMSSPNEGOTIATEOEMWORKSTATIONSUPPLIED                 = 1 << 13
+    FlagNTLMSSPNEGOTIATEALWAYSSIGN                             = 1 << 15
+    FlagNTLMSSPTARGETTYPEDOMAIN                                = 1 << 16
+    FlagNTLMSSPTARGETTYPESERVER                                = 1 << 17
+    FlagNTLMSSPNEGOTIATEEXTENDEDSESSIONSECURITY                = 1 << 19
+    FlagNTLMSSPNEGOTIATEIDENTIFY                               = 1 << 20
+    FlagNTLMSSPREQUESTNONNTSESSIONKEY                          = 1 << 22
+    FlagNTLMSSPNEGOTIATETARGETINFO                             = 1 << 23
+    FlagNTLMSSPNEGOTIATEVERSION                                = 1 << 25
+    FlagNTLMSSPNEGOTIATE128                                    = 1 << 29
+    FlagNTLMSSPNEGOTIATEKEYEXCH                                = 1 << 30
+    FlagNTLMSSPNEGOTIATE56                                     = 1 << 31
 )
 
 func (field negotiateFlags) Has(flags negotiateFlags) bool {
